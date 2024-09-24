@@ -57,14 +57,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
-        id: push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./${{steps.changes-matrix.outputs.matrix.context}} 
-          file: ${{steps.changes-matrix.outputs.matrix.dockferile}} 
-          push: true
-          tags: ${{steps.changes-matrix.outputs.matrix.image}} 
+      - name: tst2
+        run: echo ${{steps.changes-matrix.outputs.matrix}}
+
+      # - name: Build and push
+      #   id: push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./${{steps.changes-matrix.outputs.matrix.context}} 
+      #     file: ${{steps.changes-matrix.outputs.matrix.dockferile}} 
+      #     push: true
+      #     tags: ${{steps.changes-matrix.outputs.matrix.image}} 
           
 
   # build-push:
