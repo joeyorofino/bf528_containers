@@ -31,7 +31,7 @@ jobs:
         id: set-output
         run: echo "changed_directories={\"dir\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
-  make-matrix-build-push:
+  make-matrix:
     runs-on: ubuntu-latest
     needs: find-out-changes
     if: ${{ needs.find-out-changes.outputs.changed_directories != ''}}
