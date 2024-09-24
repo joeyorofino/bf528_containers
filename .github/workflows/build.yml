@@ -47,15 +47,15 @@ jobs:
         id: changes-matrix
         run: echo "test={\"dockerfile\":\"${{ matrix.dir }}/Dockerfile\", \"context\":\"${{ matrix.dir }}\", \"image\":\"${{ env.REGISTRY }}/joeyorofino/${{ matrix.dir }}:latest\"}" >> "$GITHUB_OUTPUT"
       
-      - name: Login to registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Login to registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ${{ env.REGISTRY }}
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: test
-        run: echo "${{ needs.steps.changes-matrix.outputs.test }} "
+        run: echo "${{ steps.changes-matrix.outputs.test }} "
 
       # - name: Build and push
       #   id: push
