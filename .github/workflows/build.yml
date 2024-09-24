@@ -47,24 +47,21 @@ jobs:
         id: changes-matrix
         run: echo "test={\"dockerfile\":\"${{ matrix.dir }}/Dockerfile\", \"context\":\"${{ matrix.dir }}\", \"image\":\"${{ env.REGISTRY }}/joeyorofino/${{ matrix.dir }}:latest\"}" >> "$GITHUB_OUTPUT"
       
-      # - name: Login to registry
-      #   uses: docker/login-action@v3
-      #   with:
-      #     registry: ${{ env.REGISTRY }}
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: test
-        run: echo ${{ fromJSON(steps.changes-matrix.outputs.test).context }}
-
-      # - name: Build and push
-      #   id: push
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: ./${{ fromJSON(steps.changes-matrix.outputs.matrix).context }} 
-      #     file: ${{steps.changes-matrix.outputs.matrix.dockferile}} 
-      #     push: true
-      #     tags: ${{steps.changes-matrix.outputs.matrix.image}} 
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ fromJSON(steps.changes-matrix.outputs.test).context }}
+          file: ${{ fromJSON(steps.changes-matrix.outputs.test).dockerfile }}
+          push: true
+          tags: ${{ fromJSON(steps.changes-matrix.outputs.test).image }}
           
     
     # outputs:
