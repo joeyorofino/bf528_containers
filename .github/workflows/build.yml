@@ -58,7 +58,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: test
-        run: echo "${{ fromJSON(steps.changes-matrix.outputs.matrix).context }} "
+        run: echo "${{ fromJSON(steps.changes-matrix.outputs.matrix).include.context }} "
 
       # - name: Build and push
       #   id: push
