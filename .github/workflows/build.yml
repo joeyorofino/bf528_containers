@@ -31,14 +31,14 @@ jobs:
         id: set-output
         run: echo "changed_directories={\"dir\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
-  make-matrix:
+  build-push-changed:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       attestations: write
       id-token: write
-      
+
     needs: find-out-changes
     if: ${{ needs.find-out-changes.outputs.changed_directories != ''}}
     strategy:
@@ -68,38 +68,3 @@ jobs:
           file: ${{ fromJSON(steps.changes-matrix.outputs.test).dockerfile }}
           push: true
           tags: ${{ fromJSON(steps.changes-matrix.outputs.test).image }}
-          
-    
-    # outputs:
-    #   repo_json: ${{ steps.json-dir.outputs.repo_json }}
-    #   changes_matrix: ${{ steps.changes-matrix.outputs.matrix }}
-
-
-  # build-push:
-  #   runs-on: ubuntu-latest
-  #   needs: [make-matrix]
-  #   strategy:
-  #     fail-fast: true
-  #     matrix: ${{ fromJson(needs.make-matrix.outputs.changes_matrix) }}
-
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-
-  #     - name: Login to registry
-  #       uses: docker/login-action@v3
-  #       with:
-  #         registry: ${{ env.REGISTRY }}
-  #         username: ${{ github.actor }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
- 
-  #     - name: Build and push
-  #       id: push
-  #       uses: docker/build-push-action@v6
-  #       with:
-  #         context: ./${{ matrix.context }}
-  #         file: ${{ matrix.dockerfile }}
-  #         push: true
-  #         tags: ${{ matrix.image }}
-
-
