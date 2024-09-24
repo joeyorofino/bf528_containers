@@ -58,7 +58,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: tst2
-        run: echo ${{steps.changes-matrix.outputs.matrix}}
+        run: echo ${{steps.changes-matrix.outputs.matrix.include.dockerfile}}
 
       # - name: Build and push
       #   id: push
