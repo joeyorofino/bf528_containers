@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           - dockerfile: ./biopython/Dockerfile
-            image: ghcr.io/joeyorofino/biopython:1.7.8:main
+            image: ghcr.io/joeyorofino/biopython:1.7.8
           - dockerfile: ./samtools/Dockerfile
-            image: ghcr.io/joeyorofino/samtools:1.20:main
+            image: ghcr.io/joeyorofino/samtools:1.20
 
     permissions:
       contents: read
