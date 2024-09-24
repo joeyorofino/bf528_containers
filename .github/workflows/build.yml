@@ -37,14 +37,14 @@ jobs:
       matrix: ${{ fromJson(needs.find-out-changes.outputs.changed_directories) }}
     outputs:
       repo_json: ${{ steps.json-dir.outputs.repo_json }}
-      changes_matrix: ${{ steps.changes-matrix.outputs.test }}
+      changes_matrix: ${{ steps.changes-matrix.outputs.matrix }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
 
       - name: manually make changes matrix
         id: changes-matrix
-        run: echo "test={\"dockerfile\":\"${{ matrix.dir }}/Dockerfile\", \"context\":\"${{ matrix.dir }}\", \"image\":\"${{ env.REGISTRY }}/joeyorofino/${{ matrix.dir }}:latest\"}" >> "$GITHUB_OUTPUT"
+        run: echo "matrix={\"include\":[{\"dockerfile\":\"${{ matrix.dir }}/Dockerfile\", \"context\":\"${{ matrix.dir }}\", \"image\":\"${{ env.REGISTRY }}/joeyorofino/${{ matrix.dir }}:latest\"}]}" >> "$GITHUB_OUTPUT"
 
   build-push:
     runs-on: ubuntu-latest
