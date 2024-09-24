@@ -40,10 +40,10 @@ jobs:
       attestations: write
       id-token: write
 
-    needs: find-out-changes
-    if: ${{ needs.find-out-changes.outputs.changed_directories != ''}}
+    needs: find-out-changed
+    if: ${{ needs.find-out-changed.outputs.changed_directories != ''}}
     strategy:
-      matrix: ${{ fromJson(needs.find-out-changes.outputs.changed_directories) }}
+      matrix: ${{ fromJson(needs.find-out-changed.outputs.changed_directories) }}
       fail-fast: true
 
     steps:
