@@ -17,8 +17,10 @@ jobs:
         include:
           - dockerfile: ./biopython/Dockerfile
             image: ghcr.io/joeyorofino/biopython:1.7.8
+            context: biopython
           - dockerfile: ./samtools/Dockerfile
             image: ghcr.io/joeyorofino/samtools:1.20
+            context: samtools
 
     permissions:
       contents: read
@@ -41,7 +43,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ matrix.image }}
