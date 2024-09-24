@@ -48,6 +48,9 @@ jobs:
       - name: test2
         run: echo ${{ steps.json-dir.outputs.repo_json }}
 
+      - name: test3
+        run: echo "test={\"dockerfile\":${{ matrix.dir }}/Dockerfile}" >> "$GITHUB_OUTPUT"
+
 
   # build-push:
   #   runs-on: ubuntu-latest
