@@ -15,9 +15,9 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - dockerfile: ./biopython/Dockerfile
+          - dockerfile: /biopython/Dockerfile
           image: ghcr.io/joeyorofino/biopython:1.7.8
-          - dockerfile: ./samtools/Dockerfile
+          - dockerfile: /samtools/Dockerfile
           image: ghcr.io/joeyorofino/samtools:1.20
 
     permissions:
