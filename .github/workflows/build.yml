@@ -26,6 +26,7 @@ jobs:
         with:
           dir_names: true
           json: true
+          files_ignore: .github/workflows/build.yml
       
       - name: save changed changed_directories
         id: set-output
