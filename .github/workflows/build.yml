@@ -23,22 +23,22 @@ jobs:
         uses: tj-actions/changed-files@v45.0.2
         with:
           dir_names: true
-          dir_names_max_depth: 2
           json: true
           quotepath: false
 
       - name: 'Set output in the matrix format'
         id: set-output
-        run: echo "changed_directories={\"dir\":${{ steps.changed-files.outputs.all_changed_files}}}" >> "$GITHUB_OUTPUT"
+        run: echo "changed_directories={\"dir\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
   do-stuff:
     runs-on: ubuntu-latest
     if: ${{ needs.find-out-changes.output.changed_directories != '' }}
     strategy:
-      matrix: ${{fromJson(needs.find-out-changes.outputs.changed_directories)}}
+      matrix: ${{ fromJson(needs.find-out-changes.outputs.changed_directories)}}
     needs:
       - find-out-changes
     steps:
+      - uses: actions/checkout@v4
       - run: echo ${{ matrix.dir }}
 
 
