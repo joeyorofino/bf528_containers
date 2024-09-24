@@ -44,7 +44,7 @@ jobs:
 
       - name: manually make changes matrix
         id: changes-matrix
-        run: echo "test={\"dockerfile\":${{ matrix.dir }}\/Dockerfile, \"context\":${{ matrix.dir }}, \"image\":${{ env.REGISTRY }}\/joeyorofino\/${{ matrix.dir }}:latest}" >> "$GITHUB_OUTPUT"
+        run: echo "test={\"dockerfile\":\"${{ matrix.dir }}/Dockerfile\", \"context\":\"${{ matrix.dir }}\", \"image\":\"${{ env.REGISTRY }}/joeyorofino/${{ matrix.dir }}:latest\"}" >> "$GITHUB_OUTPUT"
 
   build-push:
     runs-on: ubuntu-latest
