@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  find-out-changes:
+  find-out-changed:
     runs-on: ubuntu-latest
     outputs:
       changed_directories: ${{ steps.set-output.outputs.changed_directories}}
