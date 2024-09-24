@@ -2,6 +2,8 @@ name: Build and publish Docker image to github registry if changed
 
 on:
   push:
+    paths-ignore:
+      - '.github/workflows/build.yml'
     branches: ['main']
 
 env:
@@ -12,7 +14,7 @@ jobs:
   find-out-changed:
     runs-on: ubuntu-latest
     outputs:
-      changed_directories: ${{ steps.set-output.outputs.changed_directories}}
+      changed_directories: ${{ steps.set-output.outputs.changed_directories }}
     steps:
       - uses: actions/checkout@v4
         with:
