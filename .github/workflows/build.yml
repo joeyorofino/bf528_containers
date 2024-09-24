@@ -31,6 +31,16 @@ jobs:
         id: set-output
         run: echo "changed_directories={\"dir\":${{ steps.changed-files.outputs.all_changed_files}}}" >> "$GITHUB_OUTPUT"
 
+  do-stuff:
+    runs-on: ubuntu-latest
+    if: ${{ needs.find-out-changes.output.changed_directories != '' }}
+    strategy:
+      matrix: ${{fromJson(needs.find-out-changes.outputs.changed_directories)}}
+    needs:
+      - find-out-changes
+    steps:
+      - run: echo ${{ matrix.dir }}
+
 
   # build-push:
   #   runs-on: ubuntu-latest
