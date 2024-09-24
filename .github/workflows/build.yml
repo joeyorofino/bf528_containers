@@ -2,8 +2,6 @@ name: Build and publish Docker image to github registry if changed
 
 on:
   push:
-    paths-ignore:
-      - '.github/workflows/build.yml'
     branches: ['main']
 
 env:
