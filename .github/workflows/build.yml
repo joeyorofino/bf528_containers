@@ -29,10 +29,10 @@ jobs:
         id: set-output
         run: echo "changed_directories={\"dir\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
 
-  do-stuff:
+  make-matrix:
     runs-on: ubuntu-latest
     needs: find-out-changes
-    if: ${{ needs.find-out-changes.outputs.changed_directories != '' }}
+    if: ${{ needs.find-out-changes.outputs.changed_directories != '' & needs.find-out-changes.outputs.changed_directories != '.github/workflows'}}
     strategy:
       matrix: ${{ fromJson(needs.find-out-changes.outputs.changed_directories) }}
     outputs:
@@ -42,54 +42,38 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: test
-        id: json-dir
-        run: echo "repo_json={$(ls ${{ matrix.dir }}/* | jq -R -s -c 'split("\n")[:-1]')}" >> $GITHUB_OUTPUT
-
-      - name: test2
-        run: echo ${{ steps.json-dir.outputs.repo_json }}
-
-      - name: test3
+      - name: manually make changes matrix
         id: changes-matrix
         run: echo "test={\"dockerfile\":${{ matrix.dir }}/Dockerfile, \"context\":${{ matrix.dir }}, \"image\":${{ env.REGISTRY }}/joeyorofino/${{ matrix.dir }}:latest"} >> "$GITHUB_OUTPUT"
 
-      - name: test4
-        run: echo ${{ steps.changes-matrix.outputs.test }}
-  # build-push:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: true
-  #     matrix:
-  #       include:
-  #         - dockerfile: ./biopython/Dockerfile
-  #           image: ghcr.io/joeyorofino/biopython:1.7.8
-  #           context: biopython
-  #         - dockerfile: ./samtools/Dockerfile
-  #           image: ghcr.io/joeyorofino/samtools:1.20
-  #           context: samtools
+  build-push:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix: ${{ needs.make-matrix.outputs.changes_matrix}}
 
-  #   permissions:
-  #     contents: read
-  #     packages: write
-  #     attestations: write
-  #     id-token: write
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  #     - name: Login to registry
-  #       uses: docker/login-action@v3
-  #       with:
-  #         registry: ${{ env.REGISTRY }}
-  #         username: ${{ github.actor }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
  
-  #     - name: Build and push
-  #       id: push
-  #       uses: docker/build-push-action@v6
-  #       with:
-  #         context: ./${{ matrix.context }}
-  #         file: ${{ matrix.dockerfile }}
-  #         push: true
-  #         tags: ${{ matrix.image }}
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ matrix.image }}
