@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           - dockerfile: ./biopython/Dockerfile
-            image: ghcr.io/joeyorofino/biopython:1.7.8
+            image: ghcr.io/joeyorofino/biopython:1.7.8:main
           - dockerfile: ./samtools/Dockerfile
-            image: ghcr.io/joeyorofino/samtools:1.20
+            image: ghcr.io/joeyorofino/samtools:1.20:main
 
     permissions:
       contents: read
@@ -50,4 +50,5 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
