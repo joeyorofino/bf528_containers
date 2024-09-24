@@ -31,43 +31,42 @@ jobs:
         id: set-output
         run: echo "changed_directories={\"dir"\:${{ steps.changed-files.outputs.all_changed_files}}}" >> "$GITHUB_OUTPUT"
 
-'''
-  build-push:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - dockerfile: ./biopython/Dockerfile
-            image: ghcr.io/joeyorofino/biopython:1.7.8
-            context: biopython
-          - dockerfile: ./samtools/Dockerfile
-            image: ghcr.io/joeyorofino/samtools:1.20
-            context: samtools
 
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
+  # build-push:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: true
+  #     matrix:
+  #       include:
+  #         - dockerfile: ./biopython/Dockerfile
+  #           image: ghcr.io/joeyorofino/biopython:1.7.8
+  #           context: biopython
+  #         - dockerfile: ./samtools/Dockerfile
+  #           image: ghcr.io/joeyorofino/samtools:1.20
+  #           context: samtools
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #     attestations: write
+  #     id-token: write
 
-      - name: Login to registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Login to registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ${{ env.REGISTRY }}
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
  
-      - name: Build and push
-        id: push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          push: true
-          tags: ${{ matrix.image }}
-'''
+  #     - name: Build and push
+  #       id: push
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         context: ./${{ matrix.context }}
+  #         file: ${{ matrix.dockerfile }}
+  #         push: true
+  #         tags: ${{ matrix.image }}
