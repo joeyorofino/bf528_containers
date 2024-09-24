@@ -35,11 +35,18 @@ jobs:
     if: ${{ needs.find-out-changes.outputs.changed_directories != '' }}
     strategy:
       matrix: ${{ fromJson(needs.find-out-changes.outputs.changed_directories) }}
+    outputs:
+      repo_json: ${{ steps.json-dir.outputs.repo_json}}
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
       - name: test
-        run: echo "::set-output name=matrix::$(ls * | jq -R -s -c 'split("\n")[:-1]')"
+        id: json-dir
+        run: echo "repo_json={$(ls * | jq -R -s -c 'split("\n")[:-1]')}" >> $GITHUB_OUTPUT
+
+      - name: test2
+        run: echo ${{ steps.json-dir.outputs.repo_json }}
 
 
   # build-push:
