@@ -39,7 +39,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: test
-        run: echo $${ matrix.dir }}_env.yml
+        run: echo "::set-output name=matrix::$(ls * | jq -R -s -c 'split("\n")[:-1]')"
 
 
   # build-push:
