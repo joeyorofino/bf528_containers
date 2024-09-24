@@ -11,6 +11,14 @@ env:
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - dockerfile: ./biopython/Dockerfile
+          image: ghcr.io/joeyorofino/biopython:1.7.8
+          - dockerfile: ./samtools/Dockerfile
+          image: ghcr.io/joeyorofino/samtools:1.20
 
     permissions:
       contents: read
@@ -28,11 +36,19 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: extract metadata for docker
+        id: meta
+        uses: docker/metadata-action@v5.5.1
+        with:
+          images: ${{ matrix.image }}
  
       - name: Build and push
         id: push
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ${{ matrix.dockerfile }}
           push: true
-          tags: ${{ env.REGISTRY }}/joeyorofino/verse-rnaseq:0.1.5
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
