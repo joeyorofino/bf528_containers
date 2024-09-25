@@ -5,6 +5,8 @@ on:
     paths-ignore:
       - '**/build.yml'
       - '**/README.md'
+      - '**/*.py'
+      - '**/*.txt'
     branches: ['main']
 
 env:
