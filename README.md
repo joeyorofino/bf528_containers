@@ -24,7 +24,7 @@ dependencies:
 
 The generage_directory.py script must be run prior to generating the repo. It searches the envs/
 directory and creates subdirectories named by the tool containing the Dockerfile and the corresponding
-environment specification, <tool>_env.yml. The templated dockerfile is stored as template.txt and 
+environment specification, `<tool>_env.yml`. The templated dockerfile is stored as template.txt and 
 contains a templated value that is replaced with the name of each appropriate YML. 
 
 ## Requirements
