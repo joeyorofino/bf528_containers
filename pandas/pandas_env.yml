@@ -3,4 +3,4 @@ channels:
 - bioconda
 
 dependencies:
-- samtools=1.21
+- pandas=2.2.3

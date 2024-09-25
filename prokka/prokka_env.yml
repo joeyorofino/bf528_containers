@@ -3,4 +3,4 @@ channels:
 - bioconda
 
 dependencies:
-- samtools=1.21
+- prokka=1.14.6

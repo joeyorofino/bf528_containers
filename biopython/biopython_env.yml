@@ -1,7 +1,6 @@
-name: base
 channels:
 - conda-forge
 - bioconda
 
 dependencies:
-- biopython=1.78
+- biopython=1.84

@@ -4,5 +4,5 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER samtools_env.yml /samtools_env.yml
 
 RUN micromamba install -y -n base -f /samtools_env.yml && micromamba clean --all --yes
 
-# just exec things causing problems, not a great fix, change in Dockerfile detected?
+# just exec things causing problems, not a great fix
 ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"

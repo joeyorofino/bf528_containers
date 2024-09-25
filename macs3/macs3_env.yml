@@ -3,4 +3,4 @@ channels:
 - bioconda
 
 dependencies:
-- samtools=1.21
+- macs3=3.0.2

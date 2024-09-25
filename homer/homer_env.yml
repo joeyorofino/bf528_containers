@@ -3,4 +3,4 @@ channels:
 - bioconda
 
 dependencies:
-- samtools=1.21
+- homer=4.11

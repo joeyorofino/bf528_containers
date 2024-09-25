@@ -3,4 +3,4 @@ channels:
 - bioconda
 
 dependencies:
-- samtools=1.21
+- bowtie2=2.5.4
