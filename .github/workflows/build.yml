@@ -46,6 +46,7 @@ jobs:
     needs: find-out-changed
     if: ${{ needs.find-out-changed.outputs.changed_directories != ''}}
     strategy:
+      max-parallel: 4
       matrix: ${{ fromJson(needs.find-out-changed.outputs.changed_directories) }}
       fail-fast: true
 

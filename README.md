@@ -6,6 +6,7 @@
 - Come up with a better script / strategy for generating the initial repo structure
 - CI/CD testing for images?
 - Test ignore paths? Should not detect changes in .github or envs/
+- Automate generation of YML environment descriptions
 
 ## Overview
 
