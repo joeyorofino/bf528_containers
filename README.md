@@ -41,3 +41,9 @@ This repo is setup with Github Actions that detects when any file changes in a s
 automatically rebuilds the image and pushes to the Github Container Registry for only the container
 within the sub-directory that changed. Either a YML specification or Dockerfile change will trigger
 these actions. 
+
+## Dockerfile
+
+The dockerfile uses micromamba as a base, and requires the following line to work nicely with nextflow:
+ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH". Nextflow uses the `singularity exec` command and bypasses the
+normal entrypoint command. 
