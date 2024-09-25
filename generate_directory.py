@@ -6,7 +6,7 @@ import shutil
 
 envs = glob.glob('envs/*yml')
 
-for env in envs[0:3]:
+for env in envs:
     newdir = os.path.basename(env.split('_')[0])
     basefile = os.path.basename(env)
     os.makedirs(newdir, exist_ok=True)
