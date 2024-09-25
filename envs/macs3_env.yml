@@ -3,4 +3,4 @@ channels:
 - bioconda
 
 dependencies:
-- macs3=3.0.1
+- macs3=3.0.2
